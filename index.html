@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrial Electrical Engineering — Power & Safety</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Merriweather:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #0b0e14;
+    --surface: #131720;
+    --surface2: #1a2030;
+    --border: #232b3a;
+    --accent: #f5a623;
+    --accent2: #3d8ef5;
+    --accent3: #4ecb71;
+    --danger: #e84040;
+    --text: #e8edf5;
+    --muted: #6b7a99;
+    --heading: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,14,20,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-mark {
+    width: 36px; height: 36px; background: var(--accent);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-weight: 500;
+    font-size: 14px; color: #000; letter-spacing: -1px;
+  }
+  .nav-logo-text { font-weight: 600; font-size: 15px; color: var(--heading); }
+  .nav-links { display: flex; gap: 0; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
+    padding: 8px 14px; border-radius: 6px; transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); }
+
+  /* ── HERO ── */
+  .hero {
+    margin-top: 60px;
+    padding: 100px 2rem 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.4;
+  }
+  .hero-glow {
+    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(245,166,35,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--accent); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    font-weight: 700; color: var(--heading);
+    line-height: 1.1; margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted); max-width: 620px;
+    margin: 0 auto 3rem; position: relative;
+  }
+  .hero-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .pill {
+    padding: 8px 18px; border-radius: 100px;
+    border: 1px solid var(--border); font-size: 13px;
+    font-weight: 500; color: var(--muted);
+    background: var(--surface);
+  }
+  .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(245,166,35,0.08); }
+
+  /* ── SECTIONS ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 80px 0; border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--accent); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700; color: var(--heading);
+    margin-bottom: 1rem; line-height: 1.2;
+  }
+  .section-intro {
+    color: var(--muted); max-width: 650px;
+    font-size: 1rem; margin-bottom: 3rem;
+  }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; gap: 1.5rem; }
+  .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 1rem;
+  }
+  .card h3 { font-size: 1.05rem; font-weight: 600; color: var(--heading); margin-bottom: 0.5rem; }
+  .card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── DIAGRAM SVG BOXES ── */
+  .diagram-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    margin: 2rem 0;
+  }
+  .diagram-box h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  svg text { font-family: 'Space Grotesk', sans-serif; }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.9rem; margin: 1.5rem 0;
+  }
+  th {
+    background: var(--surface2); color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 12px 16px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 12px 16px; color: var(--text);
+    border-bottom: 1px solid var(--border);
+  }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 10px; padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start;
+    border: 1px solid;
+  }
+  .callout-warn { background: rgba(232,64,64,0.08); border-color: rgba(232,64,64,0.3); }
+  .callout-info { background: rgba(61,142,245,0.08); border-color: rgba(61,142,245,0.3); }
+  .callout-tip  { background: rgba(78,203,113,0.08); border-color: rgba(78,203,113,0.3); }
+  .callout-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+  .callout-body { font-size: 0.92rem; }
+  .callout-body strong { color: var(--heading); display: block; margin-bottom: 0.25rem; }
+
+  /* ── SIMULATION ── */
+  .sim-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .sim-header {
+    background: var(--surface2); padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sim-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .sim-body { padding: 1.5rem; }
+
+  /* ── FORMULA ── */
+  .formula {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem; border-radius: 0 8px 8px 0;
+    margin: 1rem 0; font-size: 0.95rem; color: var(--accent);
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600; font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .badge-yellow { background: rgba(245,166,35,0.15); color: var(--accent); }
+  .badge-blue { background: rgba(61,142,245,0.15); color: var(--accent2); }
+  .badge-green { background: rgba(78,203,113,0.15); color: var(--accent3); }
+  .badge-red { background: rgba(232,64,64,0.15); color: var(--danger); }
+
+  /* ── INTERACTIVE ELEMENTS ── */
+  .slider-container { margin: 1rem 0; }
+  .slider-container label { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+  input[type=range] {
+    width: 100%; accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .output-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem; color: var(--accent);
+    font-weight: 500;
+  }
+  button.sim-btn {
+    background: var(--accent); color: #000; font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 14px; padding: 10px 22px;
+    border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s;
+  }
+  button.sim-btn:hover { opacity: 0.85; }
+  button.sim-btn.secondary {
+    background: var(--surface2); color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  /* ── WAVEFORM CANVAS ── */
+  canvas { display: block; border-radius: 8px; }
+
+  /* ── UPS DIAGRAM COLORS ── */
+  .ups-block {
+    fill: var(--surface2); stroke: var(--border); stroke-width: 1.5;
+    rx: 8;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem; text-align: center;
+    color: var(--muted); font-size: 0.88rem;
+  }
+  footer .footer-logo { font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 0.5rem; }
+
+  /* ── PROGRESS BAR ── */
+  .topic-progress {
+    display: flex; gap: 4px; margin-bottom: 3rem;
+  }
+  .tp-item {
+    flex: 1; height: 3px; border-radius: 100px;
+    background: var(--border);
+  }
+  .tp-item.done { background: var(--accent); }
+
+  /* ── TWO-COL LAYOUT ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  /* ── WIRE COLOR GUIDE ── */
+  .wire-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .wire-swatch { width: 48px; height: 12px; border-radius: 100px; flex-shrink: 0; }
+
+  /* ── ANIMATION ── */
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes flow {
+    0% { stroke-dashoffset: 40; }
+    100% { stroke-dashoffset: 0; }
+  }
+  .flow-line {
+    stroke-dasharray: 8 4;
+    animation: flow 1s linear infinite;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">SN</div>
+    <span class="nav-logo-text">Scholarnest · IEE</span>
+  </a>
+  <div class="nav-links">
+    <a href="#power-supply">Power Supply</a>
+    <a href="#ups">UPS</a>
+    <a href="#safety">Safety</a>
+    <a href="#earthing">Earthing</a>
+    <a href="#protection">Protection</a>
+    <a href="#wiring">Wiring</a>
+    <a href="#metering">Metering</a>
+  </div>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <p class="hero-eyebrow">Bachelor of Engineering · Industrial Electrical Engineering</p>
+  <h1>Power Supply &amp;<br><span>Safety Systems</span></h1>
+  <p class="hero-sub">A complete interactive guide to linear &amp; switch-mode power supplies, UPS, electrical safety, protection devices, wiring systems, and energy metering — with live simulations.</p>
+  <div class="hero-pills">
+    <span class="pill active">Linear PSU</span>
+    <span class="pill">SMPS</span>
+    <span class="pill">UPS</span>
+    <span class="pill">Earthing</span>
+    <span class="pill">MCB / Fuses</span>
+    <span class="pill">Domestic Wiring</span>
+    <span class="pill">Metering</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════ 1. POWER SUPPLY ══════════════════ -->
+<section id="power-supply">
+<div class="container">
+  <p class="section-label">Module 01</p>
+  <h2 class="section-title">Linear Power Supply</h2>
+  <p class="section-intro">A linear power supply converts AC mains voltage to a stable regulated DC output using a transformer, rectifier, filter, and voltage regulator — with low noise but moderate efficiency.</p>
+
+  <!-- Block Diagram SVG -->
+  <div class="diagram-box">
+    <h4>Block Diagram — Linear Power Supply</h4>
+    <svg viewBox="0 0 900 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <!-- Blocks -->
+      <rect x="20" y="70" width="130" height="60" rx="8" fill="#1a2030" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="85" y="98" text-anchor="middle" fill="#f5a623" font-size="13" font-weight="600">AC Mains</text>
+      <text x="85" y="116" text-anchor="middle" fill="#6b7a99" font-size="11">230V / 50Hz</text>
+
+      <rect x="195" y="70" width="130" height="60" rx="8" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="260" y="98" text-anchor="middle" fill="#3d8ef5" font-size="13" font-weight="600">Transformer</text>
+      <text x="260" y="116" text-anchor="middle" fill="#6b7a99" font-size="11">Step-Down</text>
+
+      <rect x="370" y="70" width="130" height="60" rx="8" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="435" y="98" text-anchor="middle" fill="#3d8ef5" font-size="13" font-weight="600">Rectifier</text>
+      <text x="435" y="116" text-anchor="middle" fill="#6b7a99" font-size="11">Bridge / Half-Wave</text>
+
+      <rect x="545" y="70" width="130" height="60" rx="8" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="610" y="98" text-anchor="middle" fill="#3d8ef5" font-size="13" font-weight="600">Filter</text>
+      <text x="610" y="116" text-anchor="middle" fill="#6b7a99" font-size="11">Capacitor / LC</text>
+
+      <rect x="720" y="70" width="160" height="60" rx="8" fill="#1a2030" stroke="#4ecb71" stroke-width="1.5"/>
+      <text x="800" y="98" text-anchor="middle" fill="#4ecb71" font-size="13" font-weight="600">Voltage Regulator</text>
+      <text x="800" y="116" text-anchor="middle" fill="#6b7a99" font-size="11">7805 / LM317</text>
+
+      <!-- Arrows -->
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#6b7a99"/>
+        </marker>
+      </defs>
+      <line x1="150" y1="100" x2="193" y2="100" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="325" y1="100" x2="368" y2="100" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="500" y1="100" x2="543" y2="100" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="675" y1="100" x2="718" y2="100" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Signal labels -->
+      <text x="170" y="92" text-anchor="middle" fill="#6b7a99" font-size="10">AC</text>
+      <text x="346" y="92" text-anchor="middle" fill="#6b7a99" font-size="10">Low AC</text>
+      <text x="520" y="92" text-anchor="middle" fill="#6b7a99" font-size="10">Pulsed DC</text>
+      <text x="698" y="92" text-anchor="middle" fill="#6b7a99" font-size="10">Rippled DC</text>
+
+      <!-- Output label -->
+      <text x="890" y="97" text-anchor="end" fill="#4ecb71" font-size="13" font-weight="600">DC Out</text>
+      <text x="890" y="113" text-anchor="end" fill="#6b7a99" font-size="11">+5V / +12V</text>
+    </svg>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="color:var(--heading); margin-bottom:1rem;">Stage-by-Stage Breakdown</h3>
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="card-icon" style="background:rgba(245,166,35,0.12);">🔌</div>
+        <h3>① Transformer</h3>
+        <p>Steps down 230V AC to a safer low voltage (e.g., 12V AC). The turns ratio N₁/N₂ = V₁/V₂ determines the output voltage. Core: laminated iron or ferrite.</p>
+      </div>
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="card-icon" style="background:rgba(61,142,245,0.12);">⚡</div>
+        <h3>② Rectifier</h3>
+        <p>Converts AC to pulsating DC. A bridge rectifier (4 diodes) gives full-wave rectification — both half-cycles are utilized, giving V<sub>dc</sub> = 0.636 × V<sub>m</sub>.</p>
+      </div>
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="card-icon" style="background:rgba(61,142,245,0.12);">〜</div>
+        <h3>③ Filter</h3>
+        <p>Electrolytic capacitors smooth the pulsating DC. Larger capacitance → lower ripple voltage. Ripple factor r = 1/(4√3 · f · C · R<sub>L</sub>).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:rgba(78,203,113,0.12);">🔋</div>
+        <h3>④ Regulator</h3>
+        <p>IC regulators (78xx series for fixed, LM317 for variable) maintain constant output despite load/line variations. Uses a series-pass transistor in linear mode.</p>
+      </div>
+    </div>
+    <div>
+      <!-- Live Waveform Simulation -->
+      <div class="sim-box">
+        <div class="sim-header">
+          <div class="sim-dot" style="background:#e84040"></div>
+          <div class="sim-dot" style="background:#f5a623"></div>
+          <div class="sim-dot" style="background:#4ecb71"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-left:6px;">Signal Stages — Live</span>
+        </div>
+        <div class="sim-body">
+          <canvas id="waveCanvas" width="460" height="220" style="width:100%;background:#0b0e14;border-radius:8px;"></canvas>
+          <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+            <span style="font-size:12px;color:var(--accent);">━ AC Input</span>
+            <span style="font-size:12px;color:#3d8ef5;">━ After Rectifier</span>
+            <span style="font-size:12px;color:#4ecb71;">━ After Filter</span>
+            <span style="font-size:12px;color:#c084fc;">━ Regulated DC</span>
+          </div>
+          <div class="slider-container" style="margin-top:1rem;">
+            <label>Filter Capacitor Size: <span class="output-val" id="capVal">470µF</span></label>
+            <input type="range" id="capSlider" min="10" max="1000" value="470">
+          </div>
+        </div>
+      </div>
+
+      <div class="formula">V<sub>ripple</sub> = I<sub>L</sub> / (2 × f × C) &nbsp;&nbsp; [Full-Wave]</div>
+      <div class="formula">η<sub>linear</sub> = V<sub>out</sub> / V<sub>in</sub> × 100%</div>
+
+      <div class="callout callout-warn" style="margin-top:1rem;">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Efficiency Limitation</strong>
+          Linear supplies dissipate the voltage difference (V<sub>in</sub> − V<sub>out</sub>) as heat. For a 12V input regulated to 5V, about 58% of power is wasted as heat — hence the need for heatsinks.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <h3 style="color:var(--heading);margin-top:3rem;margin-bottom:1rem;">Linear PSU — Key Specifications</h3>
+  <table>
+    <tr><th>Parameter</th><th>Typical Value</th><th>Significance</th></tr>
+    <tr><td>Efficiency</td><td>30–50%</td><td>Low; excess power → heat</td></tr>
+    <tr><td>Output Ripple</td><td>1–10 mV</td><td>Very low — ideal for analog circuits</td></tr>
+    <tr><td>Transient Response</td><td>Fast (&lt;1µs)</td><td>Good for noise-sensitive loads</td></tr>
+    <tr><td>Operating Frequency</td><td>50/60 Hz (mains)</td><td>Transformer size is large &amp; heavy</td></tr>
+    <tr><td>Line Regulation</td><td>0.01–0.1%</td><td>Output stable vs input variation</td></tr>
+    <tr><td>Load Regulation</td><td>0.01–0.5%</td><td>Output stable vs load variation</td></tr>
+  </table>
+</div>
+</section>
+
+
+<!-- ══════════════════ 2. SMPS ══════════════════ -->
+<section id="smps">
+<div class="container">
+  <p class="section-label">Module 02</p>
+  <h2 class="section-title">Switch Mode Power Supply (SMPS)</h2>
+  <p class="section-intro">SMPS achieves high efficiency (80–95%) by switching the input voltage at high frequency (20 kHz–2 MHz) instead of dissipating excess as heat — enabling compact, lightweight designs for modern electronics.</p>
+
+  <!-- SMPS Block Diagram -->
+  <div class="diagram-box">
+    <h4>Block Diagram — SMPS (Flyback Topology)</h4>
+    <svg viewBox="0 0 960 240" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#6b7a99"/>
+        </marker>
+        <marker id="arr3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#f5a623"/>
+        </marker>
+      </defs>
+
+      <!-- Main path -->
+      <rect x="10" y="80" width="110" height="55" rx="7" fill="#1a2030" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="65" y="104" text-anchor="middle" fill="#f5a623" font-size="12" font-weight="600">AC Input</text>
+      <text x="65" y="120" text-anchor="middle" fill="#6b7a99" font-size="10">230V / 50Hz</text>
+
+      <rect x="160" y="80" width="110" height="55" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="215" y="104" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">EMI Filter</text>
+      <text x="215" y="120" text-anchor="middle" fill="#6b7a99" font-size="10">RFI Suppression</text>
+
+      <rect x="310" y="80" width="110" height="55" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="365" y="104" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Rectifier</text>
+      <text x="365" y="120" text-anchor="middle" fill="#6b7a99" font-size="10">+ Filter (PFC)</text>
+
+      <rect x="460" y="80" width="120" height="55" rx="7" fill="#1a2030" stroke="#e84040" stroke-width="1.5"/>
+      <text x="520" y="101" text-anchor="middle" fill="#e84040" font-size="12" font-weight="600">Switching</text>
+      <text x="520" y="117" text-anchor="middle" fill="#e84040" font-size="12" font-weight="600">Transistor</text>
+      <text x="520" y="130" text-anchor="middle" fill="#6b7a99" font-size="10">MOSFET/IGBT</text>
+
+      <rect x="630" y="80" width="110" height="55" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="685" y="104" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">HF Trans.</text>
+      <text x="685" y="120" text-anchor="middle" fill="#6b7a99" font-size="10">Ferrite Core</text>
+
+      <rect x="790" y="80" width="110" height="55" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="845" y="104" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Output Stage</text>
+      <text x="845" y="120" text-anchor="middle" fill="#6b7a99" font-size="10">Rectify + Filter</text>
+
+      <!-- Feedback loop -->
+      <rect x="630" y="170" width="270" height="45" rx="7" fill="#1a2030" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="765" y="195" text-anchor="middle" fill="#f5a623" font-size="12" font-weight="600">PWM Controller + Optocoupler Feedback</text>
+
+      <!-- Main arrows -->
+      <line x1="120" y1="107" x2="158" y2="107" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="270" y1="107" x2="308" y2="107" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="420" y1="107" x2="458" y2="107" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="580" y1="107" x2="628" y2="107" stroke="#e84040" stroke-width="2" marker-end="url(#arr2)"/>
+      <line x1="740" y1="107" x2="788" y2="107" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <!-- Feedback arrows -->
+      <line x1="845" y1="135" x2="845" y2="168" stroke="#f5a623" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <line x1="632" y1="192" x2="520" y2="155" stroke="#f5a623" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <!-- HF label -->
+      <text x="603" y="97" text-anchor="middle" fill="#e84040" font-size="10" font-weight="600">HF Pulses</text>
+    </svg>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">How PWM Controls Output Voltage</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;">The PWM controller varies the duty cycle D of the switching transistor. Higher D → more energy transferred → higher output voltage. The feedback loop (via optocoupler for isolation) adjusts D to maintain regulation.</p>
+
+      <div class="formula">V<sub>out</sub> = D × V<sub>in</sub> &nbsp;&nbsp; [Buck Converter]</div>
+      <div class="formula">D = t<sub>on</sub> / T &nbsp;&nbsp; (Duty Cycle, 0 to 1)</div>
+      <div class="formula">Efficiency η = P<sub>out</sub> / P<sub>in</sub> ≈ 80–95%</div>
+
+      <div class="callout callout-info" style="margin-top:1.5rem;">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Why High Frequency?</strong>
+          Operating at 100 kHz–1 MHz allows transformers and inductors to be 1000× smaller than 50 Hz equivalents (core size ∝ 1/f), dramatically reducing weight and size.
+        </div>
+      </div>
+    </div>
+    <div>
+      <!-- PWM Simulation -->
+      <div class="sim-box">
+        <div class="sim-header">
+          <div class="sim-dot" style="background:#e84040"></div>
+          <div class="sim-dot" style="background:#f5a623"></div>
+          <div class="sim-dot" style="background:#4ecb71"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-left:6px;">PWM Duty Cycle Simulator</span>
+        </div>
+        <div class="sim-body">
+          <canvas id="pwmCanvas" width="460" height="180" style="width:100%;background:#0b0e14;border-radius:8px;"></canvas>
+          <div class="slider-container" style="margin-top:1rem;">
+            <label>Duty Cycle D: <span class="output-val" id="dutyVal">50%</span> → V<sub>out</sub>: <span class="output-val" id="voutVal">12.0V</span></label>
+            <input type="range" id="dutySlider" min="10" max="90" value="50">
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:0.5rem;">V<sub>in</sub> = 24V (Bus) · Adjust duty cycle to control output</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMPS Topologies -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Common SMPS Topologies</h3>
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <span class="badge badge-yellow">Step-Down</span>
+      <h3 style="margin-top:0.75rem;">Buck Converter</h3>
+      <p>V<sub>out</sub> &lt; V<sub>in</sub>. Used in CPUs, battery chargers. Series inductor stores energy; freewheeling diode allows current flow during off-time.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-blue">Step-Up</span>
+      <h3 style="margin-top:0.75rem;">Boost Converter</h3>
+      <p>V<sub>out</sub> &gt; V<sub>in</sub>. Used in LED drivers, PFC circuits. Inductor pumps energy into output capacitor during off-time.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-green">Isolated</span>
+      <h3 style="margin-top:0.75rem;">Flyback Converter</h3>
+      <p>Provides galvanic isolation via HF transformer. Multiple output voltages possible. Used in phone chargers, ATX power supplies.</p>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Linear PSU vs SMPS — Comparison</h3>
+  <table>
+    <tr><th>Parameter</th><th>Linear PSU</th><th>SMPS</th></tr>
+    <tr><td>Efficiency</td><td><span class="badge badge-red">30–50%</span></td><td><span class="badge badge-green">80–95%</span></td></tr>
+    <tr><td>Size &amp; Weight</td><td>Large, heavy (50Hz transformer)</td><td>Compact, lightweight (HF ferrite core)</td></tr>
+    <tr><td>Output Noise</td><td><span class="badge badge-green">Very Low (mV)</span></td><td><span class="badge badge-yellow">Higher (mV–100mV)</span></td></tr>
+    <tr><td>Cost</td><td>Low (simple design)</td><td>Higher (controller IC, EMI filter)</td></tr>
+    <tr><td>Operating Frequency</td><td>50/60 Hz</td><td>20 kHz – 2 MHz</td></tr>
+    <tr><td>Transient Response</td><td>Excellent</td><td>Good (with proper compensation)</td></tr>
+    <tr><td>Applications</td><td>Lab instruments, audio amplifiers</td><td>Computers, telecom, EVs, industrial</td></tr>
+  </table>
+</div>
+</section>
+
+
+<!-- ══════════════════ 3. UPS ══════════════════ -->
+<section id="ups">
+<div class="container">
+  <p class="section-label">Module 03</p>
+  <h2 class="section-title">Uninterruptible Power Supply (UPS)</h2>
+  <p class="section-intro">A UPS provides emergency power when the main supply fails, ensuring continuity for critical loads such as servers, medical equipment, and industrial control systems.</p>
+
+  <!-- UPS Block Diagram -->
+  <div class="diagram-box">
+    <h4>Block Diagram — Online Double-Conversion UPS</h4>
+    <svg viewBox="0 0 960 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="uarr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#6b7a99"/>
+        </marker>
+        <marker id="uarrG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4ecb71"/>
+        </marker>
+        <marker id="uarrB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#3d8ef5"/>
+        </marker>
+        <marker id="uarrY" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#f5a623"/>
+        </marker>
+      </defs>
+
+      <!-- AC In -->
+      <rect x="10" y="90" width="100" height="50" rx="7" fill="#1a2030" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="60" y="113" text-anchor="middle" fill="#f5a623" font-size="12" font-weight="600">AC Mains</text>
+      <text x="60" y="128" text-anchor="middle" fill="#6b7a99" font-size="10">230V/50Hz</text>
+
+      <!-- Rectifier / Charger -->
+      <rect x="155" y="90" width="120" height="50" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="215" y="113" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Rectifier /</text>
+      <text x="215" y="127" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Charger</text>
+
+      <!-- Battery -->
+      <rect x="215" y="185" width="120" height="55" rx="7" fill="#1a2030" stroke="#f5a623" stroke-width="2"/>
+      <text x="275" y="208" text-anchor="middle" fill="#f5a623" font-size="13" font-weight="700">🔋 Battery</text>
+      <text x="275" y="225" text-anchor="middle" fill="#6b7a99" font-size="10">VRLA / Li-Ion</text>
+
+      <!-- Inverter -->
+      <rect x="330" y="90" width="120" height="50" rx="7" fill="#1a2030" stroke="#4ecb71" stroke-width="1.5"/>
+      <text x="390" y="113" text-anchor="middle" fill="#4ecb71" font-size="12" font-weight="600">Inverter</text>
+      <text x="390" y="127" text-anchor="middle" fill="#6b7a99" font-size="10">DC → AC (PWM)</text>
+
+      <!-- Output Filter -->
+      <rect x="505" y="90" width="120" height="50" rx="7" fill="#1a2030" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="565" y="113" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Output Filter</text>
+      <text x="565" y="127" text-anchor="middle" fill="#6b7a99" font-size="10">LC Sinewave</text>
+
+      <!-- Static Bypass -->
+      <rect x="330" y="190" width="295" height="45" rx="7" fill="#1a2030" stroke="#e84040" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="477" y="218" text-anchor="middle" fill="#e84040" font-size="12" font-weight="600">Static Bypass Switch (SCR)</text>
+
+      <!-- Load -->
+      <rect x="680" y="90" width="100" height="50" rx="7" fill="#1a2030" stroke="#4ecb71" stroke-width="2"/>
+      <text x="730" y="113" text-anchor="middle" fill="#4ecb71" font-size="13" font-weight="700">LOAD</text>
+      <text x="730" y="128" text-anchor="middle" fill="#6b7a99" font-size="10">Server / PLC</text>
+
+      <!-- Control -->
+      <rect x="330" y="25" width="300" height="40" rx="7" fill="#1a2030" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="480" y="50" text-anchor="middle" fill="#f5a623" font-size="12" font-weight="600">Microprocessor Control Unit (MCU/DSP)</text>
+
+      <!-- Arrows main path -->
+      <line x1="110" y1="115" x2="153" y2="115" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#uarr)"/>
+      <line x1="275" y1="115" x2="328" y2="115" stroke="#3d8ef5" stroke-width="1.5" marker-end="url(#uarrB)"/>
+      <line x1="450" y1="115" x2="503" y2="115" stroke="#4ecb71" stroke-width="1.5" marker-end="url(#uarrG)"/>
+      <line x1="625" y1="115" x2="678" y2="115" stroke="#4ecb71" stroke-width="1.5" marker-end="url(#uarrG)"/>
+
+      <!-- Battery arrows -->
+      <line x1="275" y1="140" x2="275" y2="183" stroke="#f5a623" stroke-width="1.5" marker-end="url(#uarrY)"/>
+      <line x1="335" y1="210" x2="390" y2="142" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#uarrY)"/>
+
+      <!-- Bypass arrow -->
+      <line x1="625" y1="210" x2="730" y2="142" stroke="#e84040" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#uarr)"/>
+
+      <!-- Labels -->
+      <text x="480" y="85" text-anchor="middle" fill="#f5a623" font-size="10">Monitors: voltage, current, battery state, temp</text>
+    </svg>
+  </div>
+
+  <!-- UPS Types -->
+  <div class="card-grid card-grid-3" style="margin-top:2rem;">
+    <div class="card">
+      <span class="badge badge-blue">Type 1</span>
+      <h3 style="margin-top:0.75rem;">Offline / Standby UPS</h3>
+      <p>Normally passes mains directly to load. Switches to battery inverter in 4–10ms on failure. Low cost, low efficiency impact. Used for PCs, home appliances.</p>
+      <p style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem;">Switchover time: 4–10 ms</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-yellow">Type 2</span>
+      <h3 style="margin-top:0.75rem;">Line-Interactive UPS</h3>
+      <p>AVR (Auto Voltage Regulator) taps transformer to handle voltage sags/surges without switching to battery. Switchover: 2–4ms. Popular for network equipment.</p>
+      <p style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem;">Switchover time: 2–4 ms</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-green">Type 3</span>
+      <h3 style="margin-top:0.75rem;">Online Double-Conversion</h3>
+      <p>Load always powered from inverter. AC→DC→AC. Zero transfer time. Highest protection. Used for data centers, medical equipment, industrial control.</p>
+      <p style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem;">Switchover time: <strong style="color:var(--accent3);">0 ms</strong></p>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:2rem;">
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">Battery Backup Time Calculator</h3>
+      <div class="sim-box">
+        <div class="sim-body">
+          <div class="slider-container">
+            <label>Load Power: <span class="output-val" id="loadVal">500</span> W</label>
+            <input type="range" id="loadSlider" min="100" max="3000" value="500" step="50">
+          </div>
+          <div class="slider-container">
+            <label>Battery Capacity: <span class="output-val" id="batVal">100</span> Ah @ 48V</label>
+            <input type="range" id="batSlider" min="20" max="500" value="100" step="10">
+          </div>
+          <div style="margin-top:1.5rem;padding:1.5rem;background:var(--surface2);border-radius:10px;text-align:center;">
+            <div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;">Estimated Backup Time</div>
+            <div id="backupTime" style="font-size:2.5rem;font-weight:700;color:var(--accent);font-family:'IBM Plex Mono',monospace;">4.6 hrs</div>
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:0.25rem;">Assuming 85% inverter efficiency &amp; 80% DoD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">Key UPS Parameters</h3>
+      <table>
+        <tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td>VA Rating</td><td>Volt-Ampere: Apparent power (S = V×I)</td></tr>
+        <tr><td>Power Factor</td><td>PF = P/S; UPS rated kVA × PF = kW</td></tr>
+        <tr><td>VRLA Battery</td><td>Valve Regulated Lead Acid — sealed, maintenance-free</td></tr>
+        <tr><td>DoD</td><td>Depth of Discharge; deeper DoD → shorter life</td></tr>
+        <tr><td>THDv</td><td>Total Harmonic Distortion of output voltage (&lt;3% ideal)</td></tr>
+        <tr><td>Static Bypass</td><td>SCR switch routes mains to load if inverter fails</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════ 4. SAFETY ══════════════════ -->
+<section id="safety">
+<div class="container">
+  <p class="section-label">Module 04</p>
+  <h2 class="section-title">Electrical Hazards &amp; Precautions</h2>
+  <p class="section-intro">Understanding electric hazards is fundamental to safe practice. Human body resistance, current path, and exposure duration determine the severity of injury.</p>
+
+  <!-- Human Body Effect -->
+  <div class="diagram-box">
+    <h4>Effect of Current on Human Body (IEC 60479)</h4>
+    <svg viewBox="0 0 800 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <!-- Zones -->
+      <rect x="30" y="20" width="140" height="160" rx="6" fill="rgba(78,203,113,0.12)" stroke="#4ecb71" stroke-width="1"/>
+      <rect x="175" y="20" width="140" height="160" rx="6" fill="rgba(245,166,35,0.1)" stroke="#f5a623" stroke-width="1"/>
+      <rect x="320" y="20" width="140" height="160" rx="6" fill="rgba(245,166,35,0.15)" stroke="#f5a623" stroke-width="1.5"/>
+      <rect x="465" y="20" width="160" height="160" rx="6" fill="rgba(232,64,64,0.12)" stroke="#e84040" stroke-width="1.5"/>
+      <rect x="630" y="20" width="140" height="160" rx="6" fill="rgba(232,64,64,0.2)" stroke="#e84040" stroke-width="2"/>
+
+      <text x="100" y="50" text-anchor="middle" fill="#4ecb71" font-size="13" font-weight="600">0.5–2 mA</text>
+      <text x="100" y="70" text-anchor="middle" fill="#6b7a99" font-size="11">Threshold of</text>
+      <text x="100" y="85" text-anchor="middle" fill="#6b7a99" font-size="11">Perception</text>
+      <text x="100" y="110" text-anchor="middle" fill="#4ecb71" font-size="22">😶</text>
+      <text x="100" y="155" text-anchor="middle" fill="#6b7a99" font-size="10">Tingling</text>
+
+      <text x="245" y="50" text-anchor="middle" fill="#f5a623" font-size="13" font-weight="600">2–10 mA</text>
+      <text x="245" y="70" text-anchor="middle" fill="#6b7a99" font-size="11">Cannot Let Go</text>
+      <text x="245" y="110" text-anchor="middle" fill="#f5a623" font-size="22">😣</text>
+      <text x="245" y="155" text-anchor="middle" fill="#6b7a99" font-size="10">Muscular control lost</text>
+
+      <text x="390" y="50" text-anchor="middle" fill="#f5a623" font-size="13" font-weight="600">10–100 mA</text>
+      <text x="390" y="70" text-anchor="middle" fill="#6b7a99" font-size="11">Respiratory</text>
+      <text x="390" y="85" text-anchor="middle" fill="#6b7a99" font-size="11">Paralysis</text>
+      <text x="390" y="110" text-anchor="middle" fill="#f5a623" font-size="22">😰</text>
+      <text x="390" y="155" text-anchor="middle" fill="#6b7a99" font-size="10">Chest freeze</text>
+
+      <text x="545" y="50" text-anchor="middle" fill="#e84040" font-size="13" font-weight="600">100–200 mA</text>
+      <text x="545" y="70" text-anchor="middle" fill="#6b7a99" font-size="11">Ventricular</text>
+      <text x="545" y="85" text-anchor="middle" fill="#6b7a99" font-size="11">Fibrillation</text>
+      <text x="545" y="110" text-anchor="middle" fill="#e84040" font-size="22">⚡</text>
+      <text x="545" y="155" text-anchor="middle" fill="#6b7a99" font-size="10">Likely fatal</text>
+
+      <text x="700" y="50" text-anchor="middle" fill="#e84040" font-size="13" font-weight="600">&gt;200 mA</text>
+      <text x="700" y="70" text-anchor="middle" fill="#6b7a99" font-size="11">Severe Burns</text>
+      <text x="700" y="85" text-anchor="middle" fill="#6b7a99" font-size="11">Cardiac Arrest</text>
+      <text x="700" y="110" text-anchor="middle" fill="#e84040" font-size="22">☠️</text>
+      <text x="700" y="155" text-anchor="middle" fill="#6b7a99" font-size="10">Certain death without CPR</text>
+    </svg>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚡</span>
+    <div class="callout-body">
+      <strong>Ohm's Law Reminder — It's the Current, Not Voltage, That Kills</strong>
+      Skin resistance (dry): 100kΩ–1MΩ. Wet skin: as low as 1kΩ. At 230V with wet hands: I = 230/1000 = 230 mA — well into the fatal range. Always treat wet conditions with maximum caution.
+    </div>
+  </div>
+
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Types of Electrical Hazards</h3>
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <div class="card-icon" style="background:rgba(232,64,64,0.12);">⚡</div>
+      <h3>Electric Shock</h3>
+      <p>Current passing through the body. Effects depend on magnitude, path (hand-to-hand most dangerous — passes through heart), duration, and frequency.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(232,64,64,0.12);">🔥</div>
+      <h3>Electrical Burns</h3>
+      <p>Arc flash temperatures can reach 19,000°C. Entry/exit wounds from high-current shock. Internal burns along current path are often more severe than surface burns.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(232,64,64,0.12);">💥</div>
+      <h3>Arc Flash / Blast</h3>
+      <p>Ionized plasma from short-circuit arcs radiates intense UV, IR, and pressure waves. Can cause blindness, hearing damage, and severe burns up to several meters.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(245,166,35,0.12);">🔥</div>
+      <h3>Electrical Fire</h3>
+      <p>Overloaded cables, poor connections, and arcing generate heat. Wiring insulation degrades → short circuit → fire. Use fire-retardant cables and proper ratings.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(61,142,245,0.12);">💡</div>
+      <h3>Electromagnetic Hazards</h3>
+      <p>EMF from high-current conductors, RF interference in sensitive equipment. Shielding and grounding minimize exposure.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(78,203,113,0.12);">🛡️</div>
+      <h3>Precautions &amp; PPE</h3>
+      <p>Insulated tools, rubber gloves (Class 00–4), arc-flash suits, safety goggles. Always follow LOTO (Lockout-Tagout) procedures before maintenance.</p>
+    </div>
+  </div>
+
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Safe Electrical Work Practices (IS 5216 / IEC 60364)</h3>
+  <table>
+    <tr><th>Practice</th><th>Purpose</th><th>Standard</th></tr>
+    <tr><td>Lockout-Tagout (LOTO)</td><td>Isolate energy before maintenance</td><td>IS 5216</td></tr>
+    <tr><td>Double Insulation</td><td>Second layer of insulation on tools (Class II)</td><td>IEC 61140</td></tr>
+    <tr><td>ELCB / RCD</td><td>Detect earth leakage, trip in &lt;30ms</td><td>IS 8061</td></tr>
+    <tr><td>Safe Working Distance</td><td>Clearance from live 11kV: &gt;0.9m; 33kV: &gt;1.2m</td><td>OSHA / IE Rules</td></tr>
+    <tr><td>Permit to Work</td><td>Formal authorization for live work</td><td>Electricity Act 2003</td></tr>
+    <tr><td>Regular Testing</td><td>Insulation resistance ≥1 MΩ (Megger test)</td><td>IS 732</td></tr>
+  </table>
+</div>
+</section>
+
+
+<!-- ══════════════════ 5. EARTHING ══════════════════ -->
+<section id="earthing">
+<div class="container">
+  <p class="section-label">Module 05</p>
+  <h2 class="section-title">Earthing (Grounding)</h2>
+  <p class="section-intro">Earthing connects exposed conductive parts to the general mass of earth, ensuring fault currents flow safely to earth — protecting users, equipment, and triggering protective devices.</p>
+
+  <div class="two-col">
+    <div>
+      <!-- Earthing Diagram SVG -->
+      <div class="diagram-box">
+        <h4>Pipe Earthing System</h4>
+        <svg viewBox="0 0 360 380" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ground level -->
+          <rect x="0" y="140" width="360" height="240" fill="rgba(100,70,30,0.15)" rx="0"/>
+          <line x1="0" y1="140" x2="360" y2="140" stroke="#6b7a99" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <text x="10" y="132" fill="#6b7a99" font-size="11">Ground Level (GL)</text>
+
+          <!-- House outline -->
+          <rect x="60" y="30" width="240" height="110" rx="8" fill="var(--surface2)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="180" y="60" text-anchor="middle" fill="#e8edf5" font-size="13" font-weight="600">Electrical Panel</text>
+          <text x="180" y="80" text-anchor="middle" fill="var(--muted)" font-size="11">MCB / Distribution Board</text>
+
+          <!-- Equipment -->
+          <rect x="100" y="85" width="60" height="40" rx="5" fill="var(--surface)" stroke="#3d8ef5" stroke-width="1.5"/>
+          <text x="130" y="108" text-anchor="middle" fill="#3d8ef5" font-size="11">Motor</text>
+
+          <!-- Earth wire going down -->
+          <line x1="180" y1="140" x2="180" y2="260" stroke="#4ecb71" stroke-width="3"/>
+          <text x="195" y="205" fill="#4ecb71" font-size="11" font-weight="600">Earth Wire (GY)</text>
+
+          <!-- Earth pipe -->
+          <rect x="165" y="255" width="30" height="100" rx="4" fill="rgba(78,203,113,0.2)" stroke="#4ecb71" stroke-width="2"/>
+          <text x="205" y="295" fill="#6b7a99" font-size="11">Pipe Electrode</text>
+          <text x="205" y="310" fill="#6b7a99" font-size="10">(GI/CI, ø50mm)</text>
+          <text x="205" y="325" fill="#6b7a99" font-size="10">Depth: 3–4m</text>
+
+          <!-- Charcoal/salt layer -->
+          <rect x="140" y="340" width="80" height="20" rx="3" fill="rgba(245,166,35,0.15)" stroke="#f5a623" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="240" y="355" fill="#f5a623" font-size="10">Charcoal + Salt Layer</text>
+
+          <!-- Earth wire from panel -->
+          <line x1="130" y1="125" x2="130" y2="140" stroke="#4ecb71" stroke-width="2"/>
+          <line x1="130" y1="140" x2="180" y2="140" stroke="#4ecb71" stroke-width="2"/>
+
+          <!-- Fault current path -->
+          <text x="90" y="165" fill="#e84040" font-size="10">← Fault Current</text>
+          <text x="90" y="178" fill="#e84040" font-size="10">   flows to earth</text>
+        </svg>
+      </div>
+    </div>
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">Types of Earthing Systems</h3>
+      <div class="card" style="margin-bottom:1rem;">
+        <span class="badge badge-green">Most Common</span>
+        <h3 style="margin-top:0.5rem;">Pipe Earthing (IS 3043)</h3>
+        <p>GI pipe (50mm dia, 2.5–3m long) buried vertically. Surrounds with charcoal and salt to reduce soil resistivity. Earth resistance ≤1Ω for large installations, ≤5Ω for domestic.</p>
+      </div>
+      <div class="card" style="margin-bottom:1rem;">
+        <span class="badge badge-blue">Rocky Soil</span>
+        <h3 style="margin-top:0.5rem;">Plate Earthing</h3>
+        <p>GI plate (600mm × 600mm × 6mm) or copper plate (600×600×3mm) buried at ≥3m depth. Used where pipe earthing is not feasible.</p>
+      </div>
+      <div class="card">
+        <span class="badge badge-yellow">Large Networks</span>
+        <h3 style="margin-top:0.5rem;">Strip / Rod Earthing</h3>
+        <p>GI strip (25×1.6mm) or copper strip buried in trenches. Rod earthing uses driven rods in a ring pattern around substations.</p>
+      </div>
+
+      <div class="formula" style="margin-top:1.5rem;">R<sub>earth</sub> = ρ / (2πL) × ln(4L/d) &nbsp;&nbsp; [Dwight's Formula]</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem;">ρ = soil resistivity (Ω·m), L = electrode length, d = diameter</div>
+
+      <h3 style="color:var(--heading);margin-top:2rem;margin-bottom:0.75rem;">IEC TN/TT/IT Systems</h3>
+      <table>
+        <tr><th>System</th><th>Neutral</th><th>Application</th></tr>
+        <tr><td>TN-C-S</td><td>Combined then separate PEN</td><td>Most domestic supplies</td></tr>
+        <tr><td>TT</td><td>Separate earth electrode</td><td>Rural, construction sites</td></tr>
+        <tr><td>IT</td><td>Isolated neutral</td><td>Hospitals, operating theaters</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════ 6. PROTECTION DEVICES ══════════════════ -->
+<section id="protection">
+<div class="container">
+  <p class="section-label">Module 06</p>
+  <h2 class="section-title">Protection Devices: Fuses &amp; MCBs</h2>
+  <p class="section-intro">Overcurrent protection devices safeguard circuits and equipment by interrupting fault currents before damage occurs.</p>
+
+  <div class="two-col">
+    <div>
+      <!-- Fuse Diagram -->
+      <div class="diagram-box">
+        <h4>Fuse — Construction &amp; Operation</h4>
+        <svg viewBox="0 0 400 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Fuse body -->
+          <rect x="100" y="70" width="200" height="50" rx="25" fill="rgba(61,142,245,0.1)" stroke="#3d8ef5" stroke-width="2"/>
+          <!-- Fuse element -->
+          <line x1="100" y1="95" x2="145" y2="95" stroke="#f5a623" stroke-width="3"/>
+          <!-- Thin element (fusible wire) -->
+          <path d="M145 95 Q165 75 185 95 Q205 115 225 95 Q245 75 255 95" stroke="#f5a623" stroke-width="2" fill="none"/>
+          <line x1="255" y1="95" x2="300" y2="95" stroke="#f5a623" stroke-width="3"/>
+          <!-- Caps -->
+          <rect x="60" y="75" width="45" height="40" rx="5" fill="var(--surface2)" stroke="#6b7a99" stroke-width="1.5"/>
+          <rect x="295" y="75" width="45" height="40" rx="5" fill="var(--surface2)" stroke="#6b7a99" stroke-width="1.5"/>
+          <!-- Wire in -->
+          <line x1="10" y1="95" x2="58" y2="95" stroke="#e84040" stroke-width="2.5"/>
+          <text x="30" y="88" fill="#e84040" font-size="10">Line</text>
+          <!-- Wire out -->
+          <line x1="342" y1="95" x2="390" y2="95" stroke="#4ecb71" stroke-width="2.5"/>
+          <text x="358" y="88" fill="#4ecb71" font-size="10">Load</text>
+
+          <text x="200" y="145" text-anchor="middle" fill="#6b7a99" font-size="11">Low melting point wire (tin/lead alloy)</text>
+          <text x="200" y="162" text-anchor="middle" fill="#6b7a99" font-size="10">Melts &amp; breaks circuit on overcurrent — one-time use</text>
+          <text x="200" y="40" text-anchor="middle" fill="#3d8ef5" font-size="13" font-weight="600">HRC Fuse (High Rupturing Capacity)</text>
+          <text x="200" y="58" text-anchor="middle" fill="#6b7a99" font-size="10">Silica powder filling quenches the arc on operation</text>
+        </svg>
+      </div>
+
+      <h3 style="color:var(--heading);margin:1.5rem 0 0.75rem;">Fuse Types</h3>
+      <table>
+        <tr><th>Type</th><th>Rating</th><th>Application</th></tr>
+        <tr><td>Rewirable (Kit-Kat)</td><td>Up to 200A</td><td>Old domestic wiring</td></tr>
+        <tr><td>HRC Cartridge</td><td>Up to 1000A</td><td>Industrial, switchgear</td></tr>
+        <tr><td>Miniature (glass)</td><td>0.1–15A</td><td>PCBs, instruments</td></tr>
+        <tr><td>HV Current Limiting</td><td>Up to 36kV</td><td>Transformer protection</td></tr>
+      </table>
+    </div>
+    <div>
+      <!-- MCB Diagram -->
+      <div class="diagram-box">
+        <h4>MCB — Internal Construction</h4>
+        <svg viewBox="0 0 380 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- MCB body -->
+          <rect x="120" y="20" width="140" height="160" rx="8" fill="var(--surface2)" stroke="#3d8ef5" stroke-width="2"/>
+
+          <!-- Toggle -->
+          <rect x="165" y="25" width="50" height="20" rx="5" fill="#3d8ef5"/>
+          <text x="190" y="39" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">ON/OFF</text>
+
+          <!-- Bimetal strip -->
+          <path d="M 190 60 Q 180 90 185 130" stroke="#f5a623" stroke-width="3" fill="none"/>
+          <text x="215" y="95" fill="#f5a623" font-size="10">Bimetal Strip</text>
+          <text x="215" y="108" fill="#6b7a99" font-size="9">(Thermal Trip)</text>
+
+          <!-- Solenoid -->
+          <rect x="155" y="135" width="70" height="20" rx="4" fill="rgba(232,64,64,0.15)" stroke="#e84040" stroke-width="1.5"/>
+          <text x="190" y="149" text-anchor="middle" fill="#e84040" font-size="10">Solenoid (Magnetic)</text>
+
+          <!-- Contacts -->
+          <circle cx="175" cy="60" r="5" fill="#4ecb71"/>
+          <circle cx="205" cy="60" r="5" fill="#4ecb71"/>
+          <text x="190" y="52" text-anchor="middle" fill="#4ecb71" font-size="10">Contacts</text>
+
+          <!-- Arc chamber -->
+          <rect x="140" y="100" width="100" height="25" rx="4" fill="rgba(78,203,113,0.1)" stroke="#4ecb71" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="190" y="116" text-anchor="middle" fill="#4ecb71" font-size="10">Arc Quench Chamber</text>
+
+          <!-- Wire connections -->
+          <line x1="20" y1="70" x2="118" y2="70" stroke="#e84040" stroke-width="2.5"/>
+          <text x="60" y="63" text-anchor="middle" fill="#e84040" font-size="10">Line In</text>
+          <line x1="262" y1="70" x2="360" y2="70" stroke="#3d8ef5" stroke-width="2.5"/>
+          <text x="310" y="63" text-anchor="middle" fill="#3d8ef5" font-size="10">Load Out</text>
+        </svg>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:1rem;">
+        <span class="callout-icon">⚙️</span>
+        <div class="callout-body">
+          <strong>Two Trip Mechanisms in MCB</strong>
+          <strong>Thermal (Bimetal):</strong> Bends on sustained overload (slow, inverse time). <strong>Magnetic (Solenoid):</strong> Instantaneous trip on short circuit current (typically &gt;3×–10× In). MCBs are resettable — unlike fuses.
+        </div>
+      </div>
+
+      <h3 style="color:var(--heading);margin:1.5rem 0 0.75rem;">MCB Trip Curves (IS 8828)</h3>
+      <table>
+        <tr><th>Curve</th><th>Instantaneous Trip</th><th>Suitable For</th></tr>
+        <tr><td>Type B</td><td>3–5 × In</td><td>Resistive loads, lighting</td></tr>
+        <tr><td>Type C</td><td>5–10 × In</td><td>Motors, transformers</td></tr>
+        <tr><td>Type D</td><td>10–20 × In</td><td>High-inrush equipment</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- MCB vs Fuse -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">MCB vs Fuse — Comparative Analysis</h3>
+  <table>
+    <tr><th>Feature</th><th>MCB</th><th>HRC Fuse</th></tr>
+    <tr><td>Operation</td><td>Electromechanical; resettable</td><td>Fusible element; one-time use</td></tr>
+    <tr><td>Breaking Capacity</td><td>Up to 25 kA (MCCB up to 100kA)</td><td>Up to 120 kA (HRC)</td></tr>
+    <tr><td>Response to Overload</td><td>Inverse time (bimetal)</td><td>Faster at high fault levels</td></tr>
+    <tr><td>Cost</td><td>Higher initial cost</td><td>Lower cost; replacement needed</td></tr>
+    <tr><td>Fault Indication</td><td>Tripped position visible</td><td>External indicator (some types)</td></tr>
+    <tr><td>Preferred Use</td><td>Domestic &amp; commercial DBs</td><td>Industrial switchgear, HV systems</td></tr>
+  </table>
+</div>
+</section>
+
+
+<!-- ══════════════════ 7. WIRES & CABLES ══════════════════ -->
+<section id="wiring">
+<div class="container">
+  <p class="section-label">Module 07</p>
+  <h2 class="section-title">Wires, Cables &amp; Domestic Wiring</h2>
+  <p class="section-intro">Correct cable selection is critical for safety and performance. Key factors: conductor material, cross-section, insulation type, current rating, and voltage grade.</p>
+
+  <div class="two-col">
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">Standard Wire Color Codes (IS 375 / IEC 60446)</h3>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+        <div class="wire-row">
+          <div class="wire-swatch" style="background:linear-gradient(90deg,#ff2222,#cc0000);"></div>
+          <div>
+            <strong style="color:var(--text);">Red / Brown</strong>
+            <span style="color:var(--muted);font-size:0.88rem;"> — Phase (Line) L1</span>
+          </div>
+          <span class="badge badge-red">LIVE</span>
+        </div>
+        <div class="wire-row">
+          <div class="wire-swatch" style="background:linear-gradient(90deg,#ffcc00,#cc9900);"></div>
+          <div>
+            <strong style="color:var(--text);">Yellow</strong>
+            <span style="color:var(--muted);font-size:0.88rem;"> — Phase L2 (3-phase)</span>
+          </div>
+          <span class="badge badge-yellow">LIVE</span>
+        </div>
+        <div class="wire-row">
+          <div class="wire-swatch" style="background:linear-gradient(90deg,#3399ff,#0055cc);"></div>
+          <div>
+            <strong style="color:var(--text);">Blue</strong>
+            <span style="color:var(--muted);font-size:0.88rem;"> — Phase L3 / Neutral (IEC)</span>
+          </div>
+          <span class="badge badge-blue">NEUTRAL</span>
+        </div>
+        <div class="wire-row">
+          <div class="wire-swatch" style="background:linear-gradient(90deg,#222222,#444444);"></div>
+          <div>
+            <strong style="color:var(--text);">Black</strong>
+            <span style="color:var(--muted);font-size:0.88rem;"> — Neutral (IS 375 old code)</span>
+          </div>
+          <span class="badge badge-blue">NEUTRAL</span>
+        </div>
+        <div class="wire-row" style="border-bottom:none;">
+          <div class="wire-swatch" style="background:linear-gradient(90deg,#33cc44,#22aa33);"></div>
+          <div>
+            <strong style="color:var(--text);">Green / Green+Yellow</strong>
+            <span style="color:var(--muted);font-size:0.88rem;"> — Earth / Ground</span>
+          </div>
+          <span class="badge badge-green">EARTH</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color:var(--heading);margin-bottom:1rem;">Cable Cross-Section &amp; Current Capacity</h3>
+      <table>
+        <tr><th>Cross-Section</th><th>Max Current (Cu)</th><th>Typical Use</th></tr>
+        <tr><td>1.5 mm²</td><td>15A</td><td>Lighting circuits</td></tr>
+        <tr><td>2.5 mm²</td><td>20A</td><td>Socket outlets, appliances</td></tr>
+        <tr><td>4.0 mm²</td><td>27A</td><td>Shower, oven circuit</td></tr>
+        <tr><td>6.0 mm²</td><td>34A</td><td>Sub-main, EV charger</td></tr>
+        <tr><td>10 mm²</td><td>46A</td><td>Sub-distribution board</td></tr>
+        <tr><td>25 mm²</td><td>80A</td><td>Main incoming supply</td></tr>
+        <tr><td>50 mm²</td><td>120A</td><td>Service entrance</td></tr>
+      </table>
+      <div class="callout callout-tip" style="margin-top:1rem;">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Derating Factors</strong>
+          Cables in conduit, high ambient temp, or grouped with other cables must be derated. E.g., 3 cables in conduit at 40°C ambient: factor ≈ 0.75 × rated current.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cable Types -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Types of Wires &amp; Cables</h3>
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <span class="badge badge-blue">Domestic</span>
+      <h3 style="margin-top:0.75rem;">PVC Insulated Wire</h3>
+      <p>Polyvinyl chloride insulated copper conductors. Flexible, moisture-resistant. Used in house wiring, up to 1100V grade. IS 694 compliant.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-yellow">Industrial</span>
+      <h3 style="margin-top:0.75rem;">XLPE Armoured Cable</h3>
+      <p>Cross-linked polyethylene insulation, steel wire armour (SWA). Excellent thermal resistance, used for underground and high-temp industrial installations (up to 90°C).</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-green">Outdoor</span>
+      <h3 style="margin-top:0.75rem;">Overhead Conductor (ACSR)</h3>
+      <p>Aluminium Conductor Steel Reinforced. Galvanized steel core for mechanical strength; aluminium strands for conductivity. Used in HT/LT overhead lines.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-red">Fire-Safe</span>
+      <h3 style="margin-top:0.75rem;">LSZH / FRLS Cable</h3>
+      <p>Low Smoke Zero Halogen / Fire Retardant Low Smoke. Does not emit toxic gases when burning. Mandatory in tunnels, hospitals, public buildings.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-blue">Control</span>
+      <h3 style="margin-top:0.75rem;">Multicore Flexible Cable</h3>
+      <p>Multiple fine stranded conductors (Class 5/6 flexibility). Used for portable appliances, control panels. 300/500V to 450/750V grades.</p>
+    </div>
+    <div class="card">
+      <span class="badge badge-yellow">Underground</span>
+      <h3 style="margin-top:0.75rem;">Power Cable (11kV/33kV)</h3>
+      <p>XLPE insulated, screened, SWA, PVC outer sheath. For underground HT distribution. Paper-insulated lead-sheathed (PILC) in older systems.</p>
+    </div>
+  </div>
+
+  <!-- Domestic Wiring -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Components of Domestic Wiring System</h3>
+  <div class="diagram-box">
+    <h4>Domestic Wiring — Single Line Layout (Single Phase)</h4>
+    <svg viewBox="0 0 900 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="warr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#6b7a99"/>
+        </marker>
+      </defs>
+
+      <!-- Service entrance -->
+      <rect x="10" y="100" width="80" height="80" rx="6" fill="var(--surface2)" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="50" y="132" text-anchor="middle" fill="#f5a623" font-size="11" font-weight="600">Service</text>
+      <text x="50" y="148" text-anchor="middle" fill="#f5a623" font-size="11" font-weight="600">Entrance</text>
+      <text x="50" y="163" text-anchor="middle" fill="#6b7a99" font-size="10">LT Supply</text>
+
+      <!-- Energy meter -->
+      <rect x="130" y="100" width="90" height="80" rx="6" fill="var(--surface2)" stroke="#3d8ef5" stroke-width="1.5"/>
+      <text x="175" y="132" text-anchor="middle" fill="#3d8ef5" font-size="11" font-weight="600">Energy</text>
+      <text x="175" y="148" text-anchor="middle" fill="#3d8ef5" font-size="11" font-weight="600">Meter</text>
+      <text x="175" y="163" text-anchor="middle" fill="#6b7a99" font-size="10">kWh Meter</text>
+
+      <!-- Main switch fuse -->
+      <rect x="260" y="100" width="90" height="80" rx="6" fill="var(--surface2)" stroke="#e84040" stroke-width="1.5"/>
+      <text x="305" y="132" text-anchor="middle" fill="#e84040" font-size="11" font-weight="600">Main</text>
+      <text x="305" y="148" text-anchor="middle" fill="#e84040" font-size="11" font-weight="600">Switch+Fuse</text>
+      <text x="305" y="163" text-anchor="middle" fill="#6b7a99" font-size="10">DP MCB 63A</td>
+
+      <!-- Distribution Board -->
+      <rect x="390" y="70" width="110" height="140" rx="8" fill="var(--surface2)" stroke="#4ecb71" stroke-width="2"/>
+      <text x="445" y="100" text-anchor="middle" fill="#4ecb71" font-size="12" font-weight="700">Distribution</text>
+      <text x="445" y="116" text-anchor="middle" fill="#4ecb71" font-size="12" font-weight="700">Board (DB)</text>
+      <text x="445" y="135" text-anchor="middle" fill="#6b7a99" font-size="10">MCB 1: Lights</text>
+      <text x="445" y="150" text-anchor="middle" fill="#6b7a99" font-size="10">MCB 2: Sockets</text>
+      <text x="445" y="165" text-anchor="middle" fill="#6b7a99" font-size="10">MCB 3: AC/Geyser</text>
+      <text x="445" y="180" text-anchor="middle" fill="#6b7a99" font-size="10">RCCB 30mA</text>
+
+      <!-- Circuits from DB -->
+      <!-- Lighting -->
+      <rect x="560" y="70" width="100" height="55" rx="6" fill="var(--surface2)" stroke="#6b7a99" stroke-width="1.5"/>
+      <text x="610" y="96" text-anchor="middle" fill="#e8edf5" font-size="12">💡 Lighting</text>
+      <text x="610" y="112" text-anchor="middle" fill="#6b7a99" font-size="10">2-way switches</text>
+
+      <!-- Power -->
+      <rect x="560" y="145" width="100" height="55" rx="6" fill="var(--surface2)" stroke="#6b7a99" stroke-width="1.5"/>
+      <text x="610" y="170" text-anchor="middle" fill="#e8edf5" font-size="12">🔌 Sockets</text>
+      <text x="610" y="186" text-anchor="middle" fill="#6b7a99" font-size="10">5A/15A outlets</text>
+
+      <!-- AC -->
+      <rect x="560" y="220" width="100" height="45" rx="6" fill="var(--surface2)" stroke="#f5a623" stroke-width="1.5"/>
+      <text x="610" y="244" text-anchor="middle" fill="#f5a623" font-size="12">❄️ AC / Geyser</text>
+
+      <!-- Earth bus -->
+      <rect x="560" y="15" width="100" height="40" rx="6" fill="rgba(78,203,113,0.1)" stroke="#4ecb71" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="610" y="38" text-anchor="middle" fill="#4ecb71" font-size="11" font-weight="600">Earth Bus Bar</text>
+
+      <!-- Arrows between blocks -->
+      <line x1="90" y1="140" x2="128" y2="140" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#warr)"/>
+      <line x1="220" y1="140" x2="258" y2="140" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#warr)"/>
+      <line x1="350" y1="140" x2="388" y2="140" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#warr)"/>
+      <line x1="500" y1="97" x2="558" y2="97" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#warr)"/>
+      <line x1="500" y1="172" x2="558" y2="172" stroke="#6b7a99" stroke-width="1.5" marker-end="url(#warr)"/>
+      <line x1="500" y1="140" x2="610" y2="222" stroke="#f5a623" stroke-width="1.5" marker-end="url(#warr)"/>
+
+      <!-- Earth line -->
+      <line x1="445" y1="70" x2="445" y2="55" stroke="#4ecb71" stroke-width="2" stroke-dasharray="4,3"/>
+      <line x1="445" y1="55" x2="558" y2="35" stroke="#4ecb71" stroke-width="2" stroke-dasharray="4,3"/>
+    </svg>
+  </div>
+
+  <!-- Wiring systems -->
+  <h3 style="color:var(--heading);margin:2rem 0 1rem;">Wiring Systems Used in India</h3>
+  <table>
+    <tr><th>System</th><th>Description</th><th>Advantage / Use</th></tr>
+    <tr><td>Cleat Wiring</td><td>PVC wires on porcelain/plastic cleats</td><td>Temporary, cheap; not for permanent installation</td></tr>
+    <tr><td>Conduit Wiring (PVC)</td><td>Wires drawn through rigid/flexible PVC conduit</td><td>Protected, neat; most common in India</td></tr>
+    <tr><td>Conduit Wiring (GI)</td><td>GI conduit, surface/concealed</td><td>Industrial &amp; fire-prone areas</td></tr>
+    <tr><td>Batten Wiring</td><td>Sheathed cables on wooden battens</td><td>Old commercial buildings; being phased out</td></tr>
+    <tr><td>Concealed Wiring</td><td>PVC conduit in concrete/plaster</td><td>Modern residential — clean appearance</td></tr>
+  </table>
+</div>
+</section>
+
+
+<!-- ══════════════════ 8. METERING ══════════════════ -->
+<section id="metering">
+<div class="container">
+  <p class="section-label">Module 08</p>
+  <h2 class="section-title">Electricity Metering &amp; Billing</h2>
+  <p class="section-intro">Energy meters measure electrical energy consumed in kilowatt-hours (kWh). Modern smart meters enable two-way communication, time-of-use tariffs, and remote disconnection.</p>
+
+  <div class="two-col">
+    <div>
+      <!-- Energy Meter Diagram -->
+      <div class="diagram-box">
+        <h4>Induction Type (Ferraris) Energy Meter — Working Principle</h4>
+        <svg viewBox="0 0 380 280" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Voltage Coil -->
+          <rect x="40" y="30" width="110" height="55" rx="6" fill="rgba(61,142,245,0.12)" stroke="#3d8ef5" stroke-width="1.5"/>
+          <text x="95" y="54" text-anchor="middle" fill="#3d8ef5" font-size="12" font-weight="600">Pressure Coil</text>
+          <text x="95" y="70" text-anchor="middle" fill="#6b7a99" font-size="10">(High-Z, across supply)</text>
+
+          <!-- Current Coil -->
+          <rect x="230" y="30" width="110" height="55" rx="6" fill="rgba(232,64,64,0.12)" stroke="#e84040" stroke-width="1.5"/>
+          <text x="285" y="54" text-anchor="middle" fill="#e84040" font-size="12" font-weight="600">Current Coil</text>
+          <text x="285" y="70" text-anchor="middle" fill="#6b7a99" font-size="10">(Low-Z, in series with load)</text>
+
+          <!-- Aluminium disc -->
+          <ellipse cx="190" cy="155" rx="70" ry="20" fill="rgba(245,166,35,0.15)" stroke="#f5a623" stroke-width="2"/>
+          <text x="190" y="159" text-anchor="middle" fill="#f5a623" font-size="12" font-weight="600">Aluminium Disc</text>
+          <text x="190" y="175" text-anchor="middle" fill="#6b7a99" font-size="10">(Rotates ∝ Power)</text>
+
+          <!-- Brake magnet -->
+          <rect x="155" y="183" width="70" height="30" rx="5" fill="rgba(78,203,113,0.12)" stroke="#4ecb71" stroke-width="1.5"/>
+          <text x="190" y="202" text-anchor="middle" fill="#4ecb71" font-size="11">Brake Magnet</text>
+
+          <!-- Spindle -->
+          <line x1="190" y1="95" x2="190" y2="240" stroke="#6b7a99" stroke-width="2"/>
+
+          <!-- Register -->
+          <rect x="130" y="240" width="120" height="35" rx="5" fill="var(--surface2)" stroke="#6b7a99" stroke-width="1.5"/>
+          <text x="190" y="260" text-anchor="middle" fill="#e8edf5" font-size="12" font-weight="600">Register (kWh Count)</text>
+
+          <!-- Field lines -->
+          <line x1="95" y1="85" x2="150" y2="145" stroke="#3d8ef5" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="285" y1="85" x2="230" y2="145" stroke="#e84040" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="190" y="120" text-anchor="middle" fill="#f5a623" font-size="11">Eddy Currents → Torque</text>
+        </svg>
+      </div>
+
+      <div class="formula">Energy = P × t = V × I × cos φ × t &nbsp;&nbsp; [kWh]</div>
+      <div class="formula">Meter Constant = Revolutions per kWh (e.g., 1200 Rev/kWh)</div>
+    </div>
+    <div>
+      <!-- Electricity Bill Calculator -->
+      <div class="sim-box">
+        <div class="sim-header">
+          <div class="sim-dot" style="background:#e84040"></div>
+          <div class="sim-dot" style="background:#f5a623"></div>
+          <div class="sim-dot" style="background:#4ecb71"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-left:6px;">Electricity Bill Calculator</span>
+        </div>
+        <div class="sim-body">
+          <div class="slider-container">
+            <label>Units Consumed this month: <span class="output-val" id="unitsVal">300</span> kWh</label>
+            <input type="range" id="unitsSlider" min="50" max="2000" value="300" step="10">
+          </div>
+          <div style="margin-top:1.5rem;">
+            <table id="billTable" style="font-size:0.85rem;">
+              <tr><th>Slab</th><th>Units</th><th>Rate (₹/kWh)</th><th>Amount</th></tr>
+              <tr><td>0–100</td><td id="s1u">100</td><td>₹3.50</td><td id="s1a">₹350</td></tr>
+              <tr><td>101–300</td><td id="s2u">200</td><td>₹5.00</td><td id="s2a">₹1000</td></tr>
+              <tr><td>301–500</td><td id="s3u">0</td><td>₹6.50</td><td id="s3a">₹0</td></tr>
+              <tr><td>&gt;500</td><td id="s4u">0</td><td>₹7.50</td><td id="s4a">₹0</td></tr>
+            </table>
+            <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:var(--muted);">Energy Charges</span>
+                <span class="output-val" id="energyCharge">₹1,350</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;">
+                <span style="color:var(--muted);">Fixed / Demand Charge</span>
+                <span style="color:var(--text);">₹125</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;">
+                <span style="color:var(--muted);">Electricity Duty (10%)</span>
+                <span class="output-val" id="dutyCharge">₹148</span>
+              </div>
+              <div style="border-top:1px solid var(--border);margin-top:0.75rem;padding-top:0.75rem;display:flex;justify-content:space-between;align-items:center;">
+                <span style="color:var(--heading);font-weight:600;">Total Bill</span>
+                <span id="totalBill" style="font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'IBM Plex Mono',monospace;">₹1,623</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:1.5rem;">
+        <span class="callout-icon">📡</span>
+        <div class="callout-body">
+          <strong>Smart Meters (AMI)</strong>
+          Advanced Metering Infrastructure uses PLC/RF/GPRS to transmit readings automatically. Features: ToU (Time of Use) tariffs, tamper detection, remote disconnection, power quality monitoring. India targets 250M smart meters by 2025.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meter Types -->
+  <h3 style="color:var(--heading);margin:2.5rem 0 1rem;">Types of Energy Meters</h3>
+  <table>
+    <tr><th>Type</th><th>Principle</th><th>Accuracy Class</th><th>Application</th></tr>
+    <tr><td>Induction (Ferraris)</td><td>Rotating aluminium disc; eddy currents</td><td>Class 2</td><td>Old LT residential</td></tr>
+    <tr><td>Electronic (Static)</td><td>Current/voltage transducers + DSP</td><td>Class 0.5–1</td><td>Modern LT consumer</td></tr>
+    <tr><td>Smart Meter (AMI)</td><td>Static + two-way communication</td><td>Class 1</td><td>Urban residential, Smart Grid</td></tr>
+    <tr><td>CT/PT Operated (HT)</td><td>With CTs and PTs; HV measurement</td><td>Class 0.2–0.5</td><td>Industrial, HT consumers</td></tr>
+    <tr><td>TOD Meter</td><td>Time-of-Day registers for peak/off-peak</td><td>Class 1</td><td>Commercial, industrial ToU tariffs</td></tr>
+    <tr><td>Trivector Meter</td><td>Measures kWh, kVAh, kVARh simultaneously</td><td>Class 0.5</td><td>Large industrial consumers</td></tr>
+  </table>
+
+  <!-- Tariff structure -->
+  <h3 style="color:var(--heading);margin:2rem 0 1rem;">Billing Components</h3>
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <div class="card-icon" style="background:rgba(245,166,35,0.12);">⚡</div>
+      <h3>Energy Charge (kWh)</h3>
+      <p>Variable component based on actual consumption. Slab-based tariff penalizes high consumers. Units = (Reading₂ − Reading₁).</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(61,142,245,0.12);">📋</div>
+      <h3>Fixed / Demand Charge</h3>
+      <p>Flat monthly charge for maintaining the connection regardless of usage. Demand charge for industrial: based on peak kVA demand recorded by meter.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(78,203,113,0.12);">🏛️</div>
+      <h3>Taxes &amp; Surcharges</h3>
+      <p>Electricity Duty (state tax), Fuel Adjustment Charge (FAC), Power Factor Penalty (PF &lt; 0.9 attracts surcharge), TOD premium charges.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1rem;">
+    <div style="width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#000;">SN</div>
+    <div>
+      <div class="footer-logo">Scholarnest</div>
+      <div style="font-size:12px;color:var(--muted);">Engineering Education Platform</div>
+    </div>
+  </div>
+  <p style="margin-bottom:0.5rem;">Industrial Electrical Engineering — Power Supply &amp; Safety Module</p>
+  <p style="font-size:0.8rem;">References: IS 732, IS 3043, IS 8828, IEC 60364, IEC 60479, IE Rules 1956 · For educational use</p>
+</footer>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script>
+// ── Waveform Canvas (Linear PSU stages)
+const wc = document.getElementById('waveCanvas');
+const ctx = wc.getContext('2d');
+let capValue = 470;
+
+document.getElementById('capSlider').addEventListener('input', function(){
+  capValue = parseInt(this.value);
+  document.getElementById('capVal').textContent = capValue + 'µF';
+  drawWaveforms();
+});
+
+function drawWaveforms() {
+  const W = wc.width, H = wc.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = '#1a2030';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+  const steps = W;
+  const amp = 55, midY = H / 2;
+
+  // AC Input (orange)
+  ctx.beginPath(); ctx.strokeStyle = '#f5a623'; ctx.lineWidth = 2;
+  for (let i = 0; i < steps; i++) {
+    const x = i; const t = (i / steps) * 4 * Math.PI;
+    const y = midY - amp * Math.sin(t);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // After rectifier (blue) - full wave
+  ctx.beginPath(); ctx.strokeStyle = '#3d8ef5'; ctx.lineWidth = 2;
+  for (let i = 0; i < steps; i++) {
+    const x = i; const t = (i / steps) * 4 * Math.PI;
+    const y = midY + 20 - Math.abs(amp * 0.9 * Math.sin(t));
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // After filter (green) - smoother based on cap value
+  ctx.beginPath(); ctx.strokeStyle = '#4ecb71'; ctx.lineWidth = 2;
+  const ripple = 30 / Math.sqrt(capValue / 100);
+  for (let i = 0; i < steps; i++) {
+    const x = i; const t = (i / steps) * 8 * Math.PI;
+    const y = midY - 40 + ripple * Math.cos(t) * 0.4;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Regulated DC (purple)
+  ctx.beginPath(); ctx.strokeStyle = '#c084fc'; ctx.lineWidth = 2.5;
+  ctx.moveTo(0, midY - 40); ctx.lineTo(W, midY - 40);
+  ctx.stroke();
+}
+
+drawWaveforms();
+
+// ── PWM Canvas
+const pc = document.getElementById('pwmCanvas');
+const pctx = pc.getContext('2d');
+let duty = 50;
+
+document.getElementById('dutySlider').addEventListener('input', function(){
+  duty = parseInt(this.value);
+  document.getElementById('dutyVal').textContent = duty + '%';
+  const vout = (duty / 100 * 24).toFixed(1);
+  document.getElementById('voutVal').textContent = vout + 'V';
+  drawPWM();
+});
+
+function drawPWM() {
+  const W = pc.width, H = pc.height;
+  pctx.clearRect(0, 0, W, H);
+
+  pctx.strokeStyle = '#1a2030'; pctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) { pctx.beginPath(); pctx.moveTo(x, 0); pctx.lineTo(x, H); pctx.stroke(); }
+  for (let y = 0; y < H; y += 30) { pctx.beginPath(); pctx.moveTo(0, y); pctx.lineTo(W, y); pctx.stroke(); }
+
+  const numCycles = 5;
+  const cycleW = W / numCycles;
+  const onW = cycleW * (duty / 100);
+  const highY = 25, lowY = H - 45, edgeX = 10;
+
+  pctx.beginPath(); pctx.strokeStyle = '#e84040'; pctx.lineWidth = 2.5;
+  for (let c = 0; c < numCycles; c++) {
+    const x0 = c * cycleW + edgeX;
+    pctx.moveTo(x0, lowY);
+    pctx.lineTo(x0, highY);
+    pctx.lineTo(x0 + onW - edgeX*2, highY);
+    pctx.lineTo(x0 + onW - edgeX*2, lowY);
+    pctx.lineTo(x0 + cycleW - edgeX, lowY);
+  }
+  pctx.stroke();
+
+  // Avg DC line
+  const avgY = lowY - (lowY - highY) * (duty / 100);
+  pctx.beginPath(); pctx.strokeStyle = '#4ecb71'; pctx.lineWidth = 2;
+  pctx.setLineDash([8, 5]);
+  pctx.moveTo(0, avgY); pctx.lineTo(W, avgY);
+  pctx.stroke(); pctx.setLineDash([]);
+
+  pctx.fillStyle = '#4ecb71'; pctx.font = '12px Space Grotesk';
+  pctx.fillText('Avg DC = ' + (duty / 100 * 24).toFixed(1) + 'V', 8, avgY - 6);
+
+  pctx.fillStyle = '#e84040'; pctx.font = '11px Space Grotesk';
+  pctx.fillText('PWM Switching Signal', 8, H - 8);
+}
+
+drawPWM();
+
+// ── UPS Backup Calculator
+function updateUPS() {
+  const load = parseInt(document.getElementById('loadSlider').value);
+  const batAh = parseInt(document.getElementById('batSlider').value);
+  document.getElementById('loadVal').textContent = load;
+  document.getElementById('batVal').textContent = batAh;
+  const energy = batAh * 48 * 0.80; // 48V, 80% DoD
+  const hours = (energy / (load / 0.85)).toFixed(1);
+  document.getElementById('backupTime').textContent = hours + ' hrs';
+}
+document.getElementById('loadSlider').addEventListener('input', updateUPS);
+document.getElementById('batSlider').addEventListener('input', updateUPS);
+updateUPS();
+
+// ── Bill Calculator
+function updateBill() {
+  const units = parseInt(document.getElementById('unitsSlider').value);
+  document.getElementById('unitsVal').textContent = units;
+
+  const slabs = [{limit:100, rate:3.5}, {limit:200, rate:5.0}, {limit:200, rate:6.5}, {limit:Infinity, rate:7.5}];
+  let rem = units, totalEnergy = 0;
+  const ids = [['s1u','s1a'],['s2u','s2a'],['s3u','s3a'],['s4u','s4a']];
+
+  slabs.forEach((s, i) => {
+    const used = Math.min(rem, s.limit);
+    const amt = used * s.rate;
+    document.getElementById(ids[i][0]).textContent = used;
+    document.getElementById(ids[i][1]).textContent = '₹' + amt.toLocaleString('en-IN');
+    totalEnergy += amt;
+    rem = Math.max(0, rem - s.limit);
+  });
+
+  const fixed = 125;
+  const duty = Math.round((totalEnergy + fixed) * 0.10);
+  const total = totalEnergy + fixed + duty;
+
+  document.getElementById('energyCharge').textContent = '₹' + totalEnergy.toLocaleString('en-IN');
+  document.getElementById('dutyCharge').textContent = '₹' + duty.toLocaleString('en-IN');
+  document.getElementById('totalBill').textContent = '₹' + Math.round(total).toLocaleString('en-IN');
+}
+document.getElementById('unitsSlider').addEventListener('input', updateBill);
+updateBill();
+</script>
+</body>
+</html>
